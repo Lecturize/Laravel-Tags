@@ -1,8 +1,9 @@
 <?php namespace vendocrat\Tags\Facades;
 
 use Illuminate\Support\Facades\Facade;
+use vendocrat\Tags\Tags;
 
-class Tags extends Facade
+class Tag extends Facade
 {
 	/**
 	 * Get the registered name of the component.
@@ -11,6 +12,6 @@ class Tags extends Facade
 	 */
 	protected static function getFacadeAccessor()
 	{
-		return \vendocrat\Tags\Tags::class;
+		return Tags::class;
 	}
 }
