@@ -1,5 +1,7 @@
 <?php namespace vendocrat\Tags;
 
+use vendocrat\Tags\Models\Tag;
+
 trait TaggableTrait
 {
 	/**
