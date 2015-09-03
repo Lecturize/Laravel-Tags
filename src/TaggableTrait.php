@@ -15,6 +15,16 @@ trait TaggableTrait
 	}
 
 	/**
+	 * Return collection of tagged rows related to the tagged model
+	 *
+	 * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+	 */
+	public function tagged()
+	{
+		return $this->morphMany('vendocrat\Tags\Models\Tagged', 'taggable');
+	}
+
+	/**
 	 * Sync tag relation adding new tags as needed
 	 *
 	 * @param array $tags
