@@ -21,7 +21,7 @@ trait TaggableTrait
 	 */
 	public function tagged()
 	{
-		return $this->morphMany('vendocrat\Tags\Models\Tagged', 'taggable');
+		return $this->morphMany('vendocrat\Tags\Models\Taggable', 'taggable');
 	}
 
 	/**

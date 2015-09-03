@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Eloquent\Model;
 
-class Tagged extends Model
+class Taggable extends Model
 {
 
 	/**
