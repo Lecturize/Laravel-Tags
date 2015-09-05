@@ -10,5 +10,5 @@ interface TaggableInterface
 	public function retag($tags);
 	public function detag();
 	public function hasTag($tag);
-	public function getTags();
+	public function listTags();
 }
