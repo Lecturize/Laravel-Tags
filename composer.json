@@ -1,7 +1,7 @@
 {
     "name": "vendocrat/laravel-tags",
     "description": "Simple way to tag Eloquent models in Laravel 5.",
-    "homepage" : "https://github.com/vendocrat/laravel-tags",
+    "homepage" : "https://github.com/AlexanderPoellmann/laravel-tags",
     "license": "MIT",
     "keywords": [
         "tags",
