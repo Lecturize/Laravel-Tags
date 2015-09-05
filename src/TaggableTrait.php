@@ -27,7 +27,7 @@ trait TaggableTrait
 	/**
 	 * Sync tag relation adding new tags as needed
 	 *
-	 * @param array $tags
+	 * @param string|array $tags
 	 */
 	public function tag( $tags )
 	{
@@ -66,16 +66,18 @@ trait TaggableTrait
 	 * Replaces all existing tags for a model with new ones
 	 *
 	 * @param $tags
-	 * @return $this
+	 * @return bool
 	 */
 	public function retag( $tags ) {
-		return $this->detag()->tag($tags);
+		$this->detag()->tag($tags);
+
+		return $this;
 	}
 
 	/**
 	 * Removes all existing tags from model
 	 *
-	 * @return $this
+	 * @return true
 	 */
 	public function detag() {
 		$this->removeAllTags();
@@ -84,20 +86,24 @@ trait TaggableTrait
 	}
 
 	/**
-	 * @param $tag
-	 * @return mixed
+	 * Check if current model is tagged with a given tag
+	 *
+	 * @param string $tag
+	 * @return bool
 	 */
 	public function hasTag( $tag )
 	{
-		return $this->tags->contains( 'tag', $tag );
+		return $this->tags->contains('tag', $tag);
 	}
 
 	/**
+	 * Convenience method to list all tags
+	 *
 	 * @return mixed
 	 */
-	public function getTags()
+	public function listTags()
 	{
-		return $this->tags->lists( 'tag' );
+		return $this->tags->lists('tag');
 	}
 
 	/**

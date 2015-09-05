@@ -3,6 +3,8 @@
 interface TaggableInterface
 {
 	public function tags();
+	public function tagged();
+
 	public function tag($tags);
 	public function untag($tags);
 	public function retag($tags);
