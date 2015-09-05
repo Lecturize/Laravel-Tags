@@ -6,6 +6,8 @@
 
 Simple way to tag Eloquent models in Laravel 5.
 
+**Attention:** This package is a work in progress, please use with care and be sure to report any issues!
+
 ## Installation
 
 Require the package from your `composer.json` file

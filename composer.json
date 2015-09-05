@@ -8,6 +8,7 @@
         "tagging",
         "taggable",
         "eloquent",
+        "model",
         "laravel"
     ],
     "authors": [
