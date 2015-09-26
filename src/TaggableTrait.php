@@ -2,6 +2,10 @@
 
 use vendocrat\Tags\Models\Tag;
 
+/**
+ * Class TaggableTrait
+ * @package vendocrat\Tags
+ */
 trait TaggableTrait
 {
 	/**

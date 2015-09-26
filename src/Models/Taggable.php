@@ -37,14 +37,20 @@ class Taggable extends Model
 	 */
 	protected $dates = [];
 
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+	 */
 	public function taggable()
 	{
 		return $this->morphTo();
 	}
 
+	/**
+	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+	 */
 	public function tag()
 	{
-		return $this->belongsTo('vendocrat\Tags\Models\Tag', 'tag_id', 'id');
+		return $this->belongsTo(Tag::class, 'tag_id', 'id');
 	}
 
 }
