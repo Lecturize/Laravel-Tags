@@ -1,6 +1,7 @@
 <?php namespace vendocrat\Tags;
 
 use vendocrat\Tags\Models\Tag;
+use vendocrat\Tags\Models\Taggable;
 
 /**
  * Class TaggableTrait
@@ -147,6 +148,7 @@ trait TaggableTrait
 	}
 
 	/**
+	 * @TODO not playing nicely with collection yet
 	 * @param string|array $tags
 	 * @return array
 	 */
@@ -157,15 +159,32 @@ trait TaggableTrait
 			return preg_split('#[' . preg_quote( ',', '#' ) . ']#', $tags, null, PREG_SPLIT_NO_EMPTY);
 		}
 
-		return (array) $tags;
+		// assume we have a Collection given
+		return $tags->toArray();
 	}
 
 	/**
 	 * Filter model to subset with the given tags
 	 *
-	 * @param object $query
-	 * @param $tags array|string
-	 * @return object $query
+	 * @param $query
+	 * @param $tag string
+	 * @return
+	 */
+	public function scopeWithTag( $query, $tag )
+	{
+		$tag = Tag::where('tag', $tag)->first();
+
+		return $query->whereHas('tagged', function($q) use($tag) {
+			$q->where( 'tag_id', $tag->id );
+		});
+	}
+
+	/**
+	 * Filter model to subset with the given tags
+	 *
+	 * @param  object       $query
+	 * @param  array|string $tags
+	 * @return object       $query
 	 */
 	public function scopeWithTags( $query, $tags )
 	{
@@ -181,17 +200,22 @@ trait TaggableTrait
 	/**
 	 * Filter model to subset with the given tags
 	 *
-	 * @param $query
-	 * @param $tag string
-	 * @return
+	 * @param  object       $query
+	 * @param  array|string $tags
+	 * @return object       $query
 	 */
-	public function scopeWithTag( $query, $tag )
+	public function scopeWithAnyTag( $query, $tags )
 	{
-		$tag = Tag::where('tag','=',$tag)->first();
+		$tags = $this->makeTagsArray($tags);
 
-		return $query->whereHas('tagged', function($q) use($tag) {
-			$q->where( 'tag_id', '=', $tag->id );
-		});
+		$tag_ids = Tag::whereIn('tag', $tags)
+			->lists('id');
+
+		$taggable_ids = Taggable::whereIn('tag_id', $tag_ids)
+			->where('taggable_type', $query->getModel()->getMorphClass())
+			->lists('taggable_id');
+
+		return $query->whereIn($this->getTable() .'.id', $taggable_ids);
 	}
 
 }

@@ -2,6 +2,10 @@
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Taggable
+ * @package vendocrat\Tags\Models
+ */
 class Taggable extends Model
 {
 

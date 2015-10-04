@@ -5,6 +5,10 @@ use Cviebrock\EloquentSluggable\SluggableTrait;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * Class Tag
+ * @package vendocrat\Tags\Models
+ */
 class Tag extends Model implements
 	SluggableInterface
 {
