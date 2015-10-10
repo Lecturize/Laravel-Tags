@@ -112,6 +112,16 @@ trait TaggableTrait
 	}
 
 	/**
+	 * Get an array of all tagged tags
+	 *
+	 * @return mixed
+	 */
+	public function getTagsArray()
+	{
+		return $this->listTags()->toArray();
+	}
+
+	/**
 	 * A static function to add any tags that
 	 * aren’t in the database already.
 	 *
