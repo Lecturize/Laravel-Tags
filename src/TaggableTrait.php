@@ -135,7 +135,7 @@ trait TaggableTrait
 		$found = Tag::whereIn( 'tag', $tags )->lists( 'tag' )->all();
 
 		foreach ( array_diff( $tags, $found ) as $tag ) {
-			Tag::create([
+			Tag::updateOrCreate([
 				'tag' => $tag
 			]);
 		}
