@@ -12,20 +12,15 @@ use Illuminate\Database\Eloquent\Model;
 class Tag extends Model implements
 	SluggableInterface
 {
-
 	use SluggableTrait;
 
 	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
+	 * @inheritdoc
 	 */
     protected $table = 'tags';
 
 	/**
-	 * The attributes that are mass assignable.
-	 *
-	 * @var array
+	 * @inheritdoc
 	 */
     protected $fillable = [
 		'tag',
@@ -33,23 +28,7 @@ class Tag extends Model implements
 	];
 
 	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
-	protected $hidden = [];
-
-	/**
-	 * The attributes that should be mutated to dates.
-	 *
-	 * @var array
-	 */
-	protected $dates = [];
-
-	/**
-	 * The validation rules for this model.
-	 *
-	 * @var array
+	 * @inheritdoc
 	 */
     protected $validationRules = [
         'tag'  => 'required',
@@ -57,14 +36,23 @@ class Tag extends Model implements
     ];
 
 	/**
-	 * Sluggable
-	 *
-	 * @var array
+	 * @inheritdoc
 	 */
 	protected $sluggable = [
 		'build_from' => 'tag',
 		'save_to'    => 'slug',
 	];
+
+	/**
+	 * Get the Display Name
+	 *
+	 * @param int $limit
+	 * @return string
+	 */
+	public function getDisplayName( $limit = 0 )
+	{
+		return $limit > 0 ? str_limit($this->tag, $limit) : $this->tag;
+	}
 
 	/**
 	 * @param $query
@@ -74,5 +62,4 @@ class Tag extends Model implements
 	public function scopeSearch( $query, $searchTerm ) {
 		return $query->where( 'tag', 'like', '%'. $searchTerm .'%' );
 	}
-
 }
