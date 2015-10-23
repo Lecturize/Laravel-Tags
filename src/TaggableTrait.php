@@ -135,9 +135,8 @@ trait TaggableTrait
 		$found = Tag::whereIn( 'tag', $tags )->lists( 'tag' )->all();
 
 		foreach ( array_diff( $tags, $found ) as $tag ) {
-			Tag::updateOrCreate([
-				'tag' => $tag
-			]);
+			if ( ! empty(trim($tag)) && strlen($tag) >= 3 )
+				Tag::updateOrCreate(['tag' => trim($tag)]);
 		}
 	}
 
@@ -158,13 +157,13 @@ trait TaggableTrait
 	}
 
 	/**
-	 * @TODO not playing nicely with collection yet
-	 * @param string|array $tags
+	 * @TODO   not playing nicely with collection yet
+	 * @param  string|array $tags
 	 * @return array
 	 */
 	public static function makeTagsArray( $tags ) {
 		if ( is_array($tags) ) {
-			return $tags;
+			return array_unique(array_filter($tags));
 		} else if ( is_string($tags) ) {
 			return preg_split('#[' . preg_quote( ',', '#' ) . ']#', $tags, null, PREG_SPLIT_NO_EMPTY);
 		}
