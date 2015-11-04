@@ -44,6 +44,46 @@ class Tag extends Model implements
 	];
 
 	/**
+	 * Taggify a given string
+	 *
+	 * @param  string $tag
+	 * @return string
+	 */
+	public static function taggify( $tag ) {
+		$filters = [
+			' der ' => '',
+			' des ' => '',
+			' die ' => '',
+			' und ' => '',
+			' in '  => '',
+/*
+			'Ä' => 'AE',
+			'Ö' => 'OE',
+			'Ü' => 'UE',
+			'ß' => 'ss',
+			'ä' => 'ae',
+			'ö' => 'oe',
+			'ü' => 'ue',
+*/
+			'&' => '',
+			'@' => '',
+			'/' => '',
+		];
+		$tag = trim(str_replace(array_keys($filters), array_values($filters), $tag));
+
+		$filters = [
+			'/\(([^)]+)\)/' => '',
+		];
+		$tag = trim(preg_replace(array_keys($filters), array_values($filters), $tag));
+
+		$tag = camel_case($tag);
+		$tag = ucfirst($tag);
+		$tag = trim($tag);
+
+		return $tag;
+	}
+
+	/**
 	 * Get the Display Name
 	 *
 	 * @param int $limit

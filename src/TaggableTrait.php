@@ -70,8 +70,8 @@ trait TaggableTrait
 	/**
 	 * Replaces all existing tags for a model with new ones
 	 *
-	 * @param $tags
-	 * @return bool
+	 * @param  $tags
+	 * @return $this
 	 */
 	public function retag( $tags ) {
 		$this->detag()->tag($tags);
@@ -157,19 +157,26 @@ trait TaggableTrait
 	}
 
 	/**
-	 * @TODO   not playing nicely with collection yet
+	 * TODO: not playing nicely with collection yet
+	 *
 	 * @param  string|array $tags
 	 * @return array
 	 */
 	public static function makeTagsArray( $tags ) {
 		if ( is_array($tags) ) {
-			return array_unique(array_filter($tags));
+			$tags = array_unique(array_filter($tags));
 		} else if ( is_string($tags) ) {
-			return preg_split('#[' . preg_quote( ',', '#' ) . ']#', $tags, null, PREG_SPLIT_NO_EMPTY);
+			$tags = preg_split('#[' . preg_quote( ',', '#' ) . ']#', $tags, null, PREG_SPLIT_NO_EMPTY);
+		} else {
+			$tags = $tags->toArray();
 		}
 
-		// assume we have a Collection given
-		return $tags->toArray();
+		$tagSet = [];
+		foreach ( $tags as $tag ) {
+			$tagSet[] = Tag::taggify($tag);
+		}
+
+		return $tagSet;
 	}
 
 	/**
