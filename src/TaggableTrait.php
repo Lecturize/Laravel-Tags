@@ -108,7 +108,7 @@ trait TaggableTrait
 	 */
 	public function listTags()
 	{
-		return $this->tags->lists('tag');
+		return $this->tags->plucks('tag');
 	}
 
 	/**
@@ -132,7 +132,7 @@ trait TaggableTrait
 		if ( count($tags) === 0 )
 			return;
 
-		$found = Tag::whereIn( 'tag', $tags )->lists( 'tag' )->all();
+		$found = Tag::whereIn( 'tag', $tags )->plucks( 'tag' )->all();
 
 		foreach ( array_diff( $tags, $found ) as $tag ) {
 			if ( ! empty(trim($tag)) && strlen($tag) >= 3 )
@@ -225,11 +225,11 @@ trait TaggableTrait
 		$tags = $this->makeTagsArray($tags);
 
 		$tag_ids = Tag::whereIn('tag', $tags)
-			->lists('id');
+			->plucks('id');
 
 		$taggable_ids = Taggable::whereIn('tag_id', $tag_ids)
 			->where('taggable_type', $query->getModel()->getMorphClass())
-			->lists('taggable_id');
+			->plucks('taggable_id');
 
 		return $query->whereIn($this->getTable() .'.id', $taggable_ids);
 	}
