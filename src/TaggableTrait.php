@@ -42,7 +42,7 @@ trait TaggableTrait
 
 		if ( count($tags) > 0 ) {
 			$this->tags()->sync(
-				Tag::whereIn( 'tag', $tags )->lists('id')->all()
+				Tag::whereIn( 'tag', $tags )->pluck('id')->all()
 			);
 
 			return;

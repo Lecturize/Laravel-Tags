@@ -2,13 +2,47 @@
 
 interface TaggableInterface
 {
-	public function tags();
-	public function tagged();
+    /**
+     * @return mixed
+     */
+    public function tags();
 
-	public function tag($tags);
-	public function untag($tags);
-	public function retag($tags);
-	public function detag();
-	public function hasTag($tag);
-	public function listTags();
+    /**
+     * @return mixed
+     */
+    public function tagged();
+
+    /**
+     * @param $tags
+     * @return mixed
+     */
+    public function tag($tags);
+
+    /**
+     * @param $tags
+     * @return mixed
+     */
+    public function untag($tags);
+
+    /**
+     * @param $tags
+     * @return mixed
+     */
+    public function retag($tags);
+
+    /**
+     * @return mixed
+     */
+    public function detag();
+
+    /**
+     * @param $tag
+     * @return mixed
+     */
+    public function hasTag($tag);
+
+    /**
+     * @return mixed
+     */
+    public function listTags();
 }

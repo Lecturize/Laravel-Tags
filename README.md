@@ -88,7 +88,7 @@ $tags = $model->detag();
 $tags = $model->listTags();
 ```
 
-This is a convenience method for `$model->tags->lists('tag')`
+This is a convenience method for `$model->tags->pluck('tag')`
 
 ##### Scopes
 
