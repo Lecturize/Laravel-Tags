@@ -1,18 +1,14 @@
 <?php namespace vendocrat\Tags\Models;
 
-use Cviebrock\EloquentSluggable\SluggableInterface;
-use Cviebrock\EloquentSluggable\SluggableTrait;
-
+use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Tag
  * @package vendocrat\Tags\Models
  */
-class Tag extends Model implements
-	SluggableInterface
-{
-	use SluggableTrait;
+class Tag extends Model {
+	use Sluggable;
 
 	/**
 	 * @inheritdoc
@@ -34,14 +30,6 @@ class Tag extends Model implements
         'tag'  => 'required',
         'slug' => 'required',
     ];
-
-	/**
-	 * @inheritdoc
-	 */
-	protected $sluggable = [
-		'build_from' => 'tag',
-		'save_to'    => 'slug',
-	];
 
 	/**
 	 * Taggify a given string
@@ -102,4 +90,18 @@ class Tag extends Model implements
 	public function scopeSearch( $query, $searchTerm ) {
 		return $query->where( 'tag', 'like', '%'. $searchTerm .'%' );
 	}
+
+    /**
+     * Return the sluggable configuration array for this model.
+     *
+     * @return array
+     */
+    public function sluggable()
+    {
+        return [
+            'slug' => [
+                'source' => 'tag'
+            ]
+        ];
+    }
 }
