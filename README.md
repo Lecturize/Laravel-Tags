@@ -6,9 +6,9 @@
 
 Simple way to tag Eloquent models in Laravel 5.
 
-**Attention:** This package is a work in progress, please use with care and be sure to report any issues!
-
 ## Important Notice
+
+**This package is a work in progress**, please use with care and feel free to report any issues or ideas you may have!
 
 We've transferred this package to a new owner and therefor updated the namespaces to **Lecturize\Tags**. The config file is now `config/lecturize.php`.
 
@@ -40,7 +40,7 @@ Next register the service provider and (optional) facade to your `config/app.php
 $ php artisan vendor:publish --provider="Lecturize\Tags\TagsServiceProvider"
 ```
 
-This will create a `config/tags.php` and a migration file. In the config file you can customize the table names, finally you'll have to run migration like so:
+This will create a `config/lecturize.php` and a migration file. In the config file you can customize the table names, finally you'll have to run migration like so:
 
 ```bash
 $ php artisan migrate
