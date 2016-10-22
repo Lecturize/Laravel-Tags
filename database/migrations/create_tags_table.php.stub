@@ -16,8 +16,8 @@ class TagsTable extends Migration
      */
     public function __construct()
     {
-        $this->table       = config('tags.table');
-        $this->table_pivot = config('tags.table_pivot');
+        $this->table       = config('lecturize.tags.table', 'tags');
+        $this->table_pivot = config('lecturize.tags.table_pivot', 'taggables');
     }
 
     /**

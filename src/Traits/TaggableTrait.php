@@ -1,11 +1,11 @@
-<?php namespace vendocrat\Tags;
+<?php namespace Lecturize\Tags;
 
-use vendocrat\Tags\Models\Tag;
-use vendocrat\Tags\Models\Taggable;
+use Lecturize\Tags\Models\Tag;
+use Lecturize\Tags\Models\Taggable;
 
 /**
  * Class TaggableTrait
- * @package vendocrat\Tags
+ * @package Lecturize\Tags
  */
 trait TaggableTrait
 {
@@ -82,7 +82,7 @@ trait TaggableTrait
 	/**
 	 * Removes all existing tags from model
 	 *
-	 * @return true
+	 * @return mixed
 	 */
 	public function detag() {
 		$this->removeAllTags();
@@ -150,7 +150,7 @@ trait TaggableTrait
 	}
 
 	/**
-	 * @return mixed
+	 * @return void
 	 */
 	protected function removeAllTags() {
 		$this->tags()->sync([]);
@@ -179,13 +179,13 @@ trait TaggableTrait
 		return $tagSet;
 	}
 
-	/**
-	 * Filter model to subset with the given tags
-	 *
-	 * @param $query
-	 * @param $tag string
-	 * @return
-	 */
+    /**
+     * Filter model to subset with the given tags
+     *
+     * @param  $query
+     * @param  $tag string
+     * @return mixed
+     */
 	public function scopeWithTag( $query, $tag )
 	{
 		$tag = Tag::where('tag', $tag)->first();

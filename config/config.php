@@ -1,5 +1,17 @@
 <?php
 return [
-	'table'       => 'tags',
-	'table_pivot' => 'taggables',
+    /*
+     * Tags table
+     */
+    'tags' => [
+        /*
+         * Main table
+         */
+        'table' => 'tags',
+
+        /*
+         * Relationship table
+         */
+        'table_pivot' => 'taggables',
+    ],
 ];

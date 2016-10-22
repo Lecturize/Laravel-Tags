@@ -1,14 +1,13 @@
-<?php namespace vendocrat\Tags\Models;
+<?php namespace Lecturize\Tags\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Taggable
- * @package vendocrat\Tags\Models
+ * @package Lecturize\Tags\Models
  */
 class Taggable extends Model
 {
-
 	/**
 	 * The database table used by the model.
 	 *

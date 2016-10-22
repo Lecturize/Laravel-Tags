@@ -1,4 +1,4 @@
-<?php namespace vendocrat\Tags\Exceptions;
+<?php namespace Lecturize\Tags\Exceptions;
 
 class TagNotFoundException extends \Exception
 {

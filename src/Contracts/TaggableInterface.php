@@ -1,4 +1,4 @@
-<?php namespace vendocrat\Tags\Contracts;
+<?php namespace Lecturize\Tags\Contracts;
 
 interface TaggableInterface
 {

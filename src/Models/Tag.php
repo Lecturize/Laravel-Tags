@@ -1,16 +1,17 @@
-<?php namespace vendocrat\Tags\Models;
+<?php namespace Lecturize\Tags\Models;
 
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Tag
- * @package vendocrat\Tags\Models
+ * @package Lecturize\Tags\Models
  */
 class Tag extends Model {
 	use Sluggable;
 
 	/**
+     * @todo make this editable via config file
 	 * @inheritdoc
 	 */
     protected $table = 'tags';

@@ -1,7 +1,6 @@
-<?php namespace vendocrat\Tags\Facades;
+<?php namespace Lecturize\Tags\Facades;
 
 use Illuminate\Support\Facades\Facade;
-use vendocrat\Tags\Tags;
 
 class Tag extends Facade
 {
@@ -12,6 +11,6 @@ class Tag extends Facade
 	 */
 	protected static function getFacadeAccessor()
 	{
-		return Tags::class;
+        return 'tags';
 	}
 }
