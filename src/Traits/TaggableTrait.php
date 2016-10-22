@@ -1,4 +1,4 @@
-<?php namespace Lecturize\Traits\Tags;
+<?php namespace Lecturize\Tag\Traits;
 
 use Lecturize\Tags\Models\Tag;
 use Lecturize\Tags\Models\Taggable;
