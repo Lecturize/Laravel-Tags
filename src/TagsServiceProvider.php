@@ -26,13 +26,11 @@ class TagsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //  $this->app->singleton(Tags::class);
+    //  $this->app->singleton(Tags::class);
     }
 
     /**
-     * Get the services provided by the provider.
-     *
-     * @return string[]
+     * @inheritdoc
      */
     public function provides()
     {

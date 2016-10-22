@@ -1,11 +1,11 @@
-<?php namespace Lecturize\Tags;
+<?php namespace Lecturize\Traits\Tags;
 
 use Lecturize\Tags\Models\Tag;
 use Lecturize\Tags\Models\Taggable;
 
 /**
  * Class TaggableTrait
- * @package Lecturize\Tags
+ * @package Lecturize\Traits\Tags
  */
 trait TaggableTrait
 {
