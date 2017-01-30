@@ -3,7 +3,10 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class TagsTable extends Migration
+/**
+ * Class CreateTagsTable
+ */
+class CreateTagsTable extends Migration
 {
     /**
      * Table names
@@ -16,8 +19,8 @@ class TagsTable extends Migration
      */
     public function __construct()
     {
-        $this->table       = config('lecturize.tags.table', 'tags');
-        $this->table_pivot = config('lecturize.tags.table_pivot', 'taggables');
+        $this->table       = config('tags.table',       'tags');
+        $this->table_pivot = config('tags.table_pivot', 'taggables');
     }
 
     /**
@@ -33,10 +36,14 @@ class TagsTable extends Migration
 
             $table->string('tag')->unique();
             $table->string('slug')->unique();
-            // TODO: check wether to add suggestions
-            // $table->boolean('suggest')->default(false);
-            // TODO: add tag language locale
-            // $table->string('locale');
+
+            $table->boolean('suggest')->default(false);
+
+            $table->integer('language_id')
+                  ->unsigned()
+                  ->default(1)
+                  ->references('id')
+                  ->on('languages');
 
             $table->timestamps();
             $table->softDeletes();
@@ -46,12 +53,11 @@ class TagsTable extends Migration
         {
             $table->integer('tag_id')->unsigned()->index();
             $table->foreign('tag_id')
-                ->references('id')
-                ->on($this->table)
-                ->onDelete('cascade');
+                  ->references('id')
+                  ->on($this->table)
+                  ->onDelete('cascade');
 
-            $table->integer('taggable_id')->unsigned()->index();
-            $table->string('taggable_type');
+            $table->morphs('taggable');
         });
     }
 
@@ -62,8 +68,7 @@ class TagsTable extends Migration
      */
     public function down()
     {
-        Schema::drop($this->table_pivot);
-        Schema::drop($this->table);
+        Schema::dropIfExists($this->table_pivot);
+        Schema::dropIfExists($this->table);
     }
 }
-
