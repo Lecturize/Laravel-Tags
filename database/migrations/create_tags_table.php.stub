@@ -18,7 +18,7 @@ class CreateTagsTable extends Migration
     protected $table_pivot;
 
     /**
-     * Constructor
+     * Create a new migration instance.
      */
     public function __construct()
     {

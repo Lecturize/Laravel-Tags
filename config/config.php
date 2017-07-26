@@ -1,7 +1,7 @@
 <?php
 return [
     /*
-     * Tags table
+     * Tags
      */
     'tags' => [
         /*
