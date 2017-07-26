@@ -47,7 +47,7 @@ class CreateTagsTable extends Migration
                   ->unsigned()
                   ->default(1)
                   ->references('id')
-                  ->on('languages');
+                  ->on(config('lecturize.languages.table', 'languages'));
 
             $table->timestamps();
             $table->softDeletes();
