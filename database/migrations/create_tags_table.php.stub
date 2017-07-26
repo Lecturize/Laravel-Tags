@@ -9,10 +9,13 @@ use Illuminate\Database\Migrations\Migration;
 class CreateTagsTable extends Migration
 {
     /**
-     * Table names
+     * Table names.
+     *
+     * @var string  $table        The main table name for this migration.
+     * @var string  $table_pivot  The pivot table name.
      */
-    private $table;
-    private $table_pivot;
+    protected $table;
+    protected $table_pivot;
 
     /**
      * Constructor
@@ -56,7 +59,7 @@ class CreateTagsTable extends Migration
                   ->nullable()
                   ->unsigned()
                   ->references('id')
-                  ->on('$this->table')
+                  ->on($this->table)
                   ->onDelete('cascade');
 
             $table->nullableMorphs('taggable');
