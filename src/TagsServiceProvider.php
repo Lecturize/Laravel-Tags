@@ -58,8 +58,8 @@ class TagsServiceProvider extends ServiceProvider
      */
     private function handleMigrations()
     {
-        foreach ( $this->migrations as $class => $file ) {
-            if ( ! class_exists($class) ) {
+        foreach ($this->migrations as $class => $file) {
+            if (! class_exists($class)) {
                 $timestamp = date('Y_m_d_His', time());
 
                 $this->publishes([

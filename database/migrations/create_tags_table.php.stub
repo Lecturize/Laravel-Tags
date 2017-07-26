@@ -19,8 +19,8 @@ class CreateTagsTable extends Migration
      */
     public function __construct()
     {
-        $this->table       = config('tags.table',       'tags');
-        $this->table_pivot = config('tags.table_pivot', 'taggables');
+        $this->table       = config('lecturize.tags.table',       'tags');
+        $this->table_pivot = config('lecturize.tags.table_pivot', 'taggables');
     }
 
     /**
@@ -35,11 +35,12 @@ class CreateTagsTable extends Migration
 		    $table->increments('id');
 
             $table->string('tag')->unique();
-            $table->string('slug')->unique();
+            $table->string('slug')->nullable()->unique();
 
-            $table->boolean('suggest')->default(false);
+            $table->boolean('suggest')->default(0);
 
             $table->integer('language_id')
+                  ->nullable()
                   ->unsigned()
                   ->default(1)
                   ->references('id')
@@ -51,10 +52,11 @@ class CreateTagsTable extends Migration
 
         Schema::create($this->table_pivot, function(Blueprint $table)
         {
-            $table->integer('tag_id')->unsigned()->index();
-            $table->foreign('tag_id')
+            $table->integer('tag_id')
+                  ->nullable()
+                  ->unsigned()
                   ->references('id')
-                  ->on($this->table)
+                  ->on('$this->table')
                   ->onDelete('cascade');
 
             $table->nullableMorphs('taggable');

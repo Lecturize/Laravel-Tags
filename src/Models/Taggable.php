@@ -9,16 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 class Taggable extends Model
 {
 	/**
-	 * The database table used by the model.
-	 *
-	 * @var string
+	 * @inheritdoc
 	 */
-	protected $table = 'taggables';
+	protected $table;
 
 	/**
-	 * The attributes that are mass assignable.
-	 *
-	 * @var array
+     * @inheritdoc
 	 */
 	protected $fillable = [
 		'tag_id',
@@ -26,19 +22,15 @@ class Taggable extends Model
 		'taggable_type',
 	];
 
-	/**
-	 * The attributes excluded from the model's JSON form.
-	 *
-	 * @var array
-	 */
-	protected $hidden = [];
+    /**
+     * @inheritdoc
+     */
+    public function __construct()
+    {
+        parent::__construct();
 
-	/**
-	 * The attributes that should be mutated to dates.
-	 *
-	 * @var array
-	 */
-	protected $dates = [];
+        $this->table = config('lecturize.tags.table_pivot', 'taggables');
+    }
 
 	/**
 	 * @return \Illuminate\Database\Eloquent\Relations\MorphTo
@@ -55,5 +47,4 @@ class Taggable extends Model
 	{
 		return $this->belongsTo(Tag::class, 'tag_id', 'id');
 	}
-
 }

@@ -7,18 +7,18 @@ use Illuminate\Database\Eloquent\Model;
  * Class Tag
  * @package Lecturize\Tags\Models
  */
-class Tag extends Model {
+class Tag extends Model
+{
 	use Sluggable;
 
-	/**
-     * @todo make this editable via config file
-	 * @inheritdoc
-	 */
-    protected $table = 'tags';
+    /**
+     * @inheritdoc
+     */
+    protected $table;
 
-	/**
-	 * @inheritdoc
-	 */
+    /**
+     * @inheritdoc
+     */
     protected $fillable = [
 		'tag',
 		'slug'
@@ -31,6 +31,16 @@ class Tag extends Model {
         'tag'  => 'required',
         'slug' => 'required',
     ];
+
+    /**
+     * @inheritdoc
+     */
+    public function __construct()
+    {
+        parent::__construct();
+
+        $this->table = config('lecturize.tags.table', 'tags');
+    }
 
 	/**
 	 * Taggify a given string
