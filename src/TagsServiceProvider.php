@@ -8,37 +8,33 @@ class TagsServiceProvider extends ServiceProvider
         'CreateTagsTable' => 'create_tags_table'
     ];
 
-    /**
-     * Boot the service provider.
-     *
-     * @return void
-     */
-    public function boot()
-    {
+	/**
+     * @inheritdoc
+	 */
+	public function boot()
+	{
         $this->handleConfig();
         $this->handleMigrations();
-    }
+	}
 
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
-    public function register()
-    {
-    //  $this->app->singleton(Tags::class);
-    }
-
-    /**
+	/**
      * @inheritdoc
-     */
-    public function provides()
-    {
-        return [];
-    }
+	 */
+	public function register()
+	{
+	    //
+	}
+
+	/**
+     * @inheritdoc
+	 */
+	public function provides()
+	{
+		return [];
+	}
 
     /**
-     * Publish and merge the config file
+     * Publish and merge the config file.
      *
      * @return void
      */
@@ -52,7 +48,7 @@ class TagsServiceProvider extends ServiceProvider
     }
 
     /**
-     * Publish migrations
+     * Publish migrations.
      *
      * @return void
      */
