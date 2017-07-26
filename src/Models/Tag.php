@@ -2,6 +2,7 @@
 
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Tag
@@ -10,11 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 class Tag extends Model
 {
 	use Sluggable;
-
-    /**
-     * @inheritdoc
-     */
-    protected $table;
+    use SoftDeletes;
 
     /**
      * @inheritdoc
@@ -31,6 +28,11 @@ class Tag extends Model
         'tag'  => 'required',
         'slug' => 'required',
     ];
+
+    /**
+     * @inheritdoc
+     */
+    protected $dates = ['deleted_at'];
 
     /**
      * @inheritdoc

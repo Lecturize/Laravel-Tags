@@ -9,11 +9,6 @@ use Illuminate\Database\Eloquent\Model;
 class Taggable extends Model
 {
 	/**
-	 * @inheritdoc
-	 */
-	protected $table;
-
-	/**
      * @inheritdoc
 	 */
 	protected $fillable = [
