@@ -57,7 +57,7 @@ class CreateTagsTable extends Migration
                   ->on($this->table)
                   ->onDelete('cascade');
 
-            $table->morphs('taggable');
+            $table->nullableMorphs('taggable');
         });
     }
 
