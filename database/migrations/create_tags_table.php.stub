@@ -37,7 +37,7 @@ class CreateTagsTable extends Migration
 		{
 		    $table->increments('id');
 
-            $table->string('tag')->unique();
+            $table->string('tag')->nullable()->unique();
             $table->string('slug')->nullable()->unique();
 
             $table->boolean('suggest')->default(0);

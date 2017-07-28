@@ -47,10 +47,10 @@ class Tag extends Model
 	/**
 	 * Taggify a given string
 	 *
-	 * @param  string $tag
+	 * @param  string  $tag
 	 * @return string
 	 */
-	public static function taggify( $tag ) {
+	public static function taggify($tag) {
 		$filters = [
 			' der ' => '',
 			' des ' => '',
@@ -85,23 +85,25 @@ class Tag extends Model
 	}
 
 	/**
-	 * Get the Display Name
+	 * Get the display name.
 	 *
-	 * @param int $limit
+	 * @param  int  $limit
 	 * @return string
 	 */
-	public function getDisplayName( $limit = 0 )
+	public function getDisplayName($limit = 0)
 	{
 		return $limit > 0 ? str_limit($this->tag, $limit) : $this->tag;
 	}
 
 	/**
-	 * @param $query
-	 * @param string $searchTerm
+	 * Simple tag search.
+	 *
+	 * @param  $query
+	 * @param  string  $searchTerm
 	 * @return mixed
 	 */
-	public function scopeSearch( $query, $searchTerm ) {
-		return $query->where( 'tag', 'like', '%'. $searchTerm .'%' );
+	public function scopeSearch($query, $searchTerm) {
+		return $query->where('tag', 'like', '%'. $searchTerm .'%');
 	}
 
     /**

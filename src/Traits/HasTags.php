@@ -34,13 +34,13 @@ trait HasTags
 	 *
 	 * @param string|array $tags
 	 */
-	public function tag( $tags )
+	public function tag($tags)
 	{
 		$tags = $this->makeTagsArray($tags);
 
 		$this->addTags($tags);
 
-		if ( count($tags) > 0 ) {
+		if (count($tags) > 0) {
 			$this->tags()->sync(
 				Tag::whereIn('tag', $tags)->pluck('id')->all()
 			);
@@ -57,12 +57,11 @@ trait HasTags
 	 * @param $tags
 	 * @return $this
 	 */
-	public function untag( $tags ) {
+	public function untag($tags) {
 		$tags = $this->makeTagsArray($tags);
 
-		foreach ( $tags as $tag ) {
+		foreach ($tags as $tag)
 			$this->removeOneTag($tag);
-		}
 
 		return $this;
 	}
@@ -73,7 +72,7 @@ trait HasTags
 	 * @param  $tags
 	 * @return $this
 	 */
-	public function retag( $tags ) {
+	public function retag($tags) {
 		$this->detag()->tag($tags);
 
 		return $this;
@@ -96,7 +95,7 @@ trait HasTags
 	 * @param string $tag
 	 * @return bool
 	 */
-	public function hasTag( $tag )
+	public function hasTag($tag)
 	{
 		return $this->tags->contains('tag', $tag);
 	}
@@ -125,56 +124,58 @@ trait HasTags
 	 * A static function to add any tags that
 	 * aren’t in the database already.
 	 *
-	 * @param array $tags List of tags to check/add
+	 * @param array  $tags  List of tags to check/add.
 	 */
-	public static function addTags( array $tags )
+	public static function addTags(array $tags)
 	{
-		if ( count($tags) === 0 )
+		if (count($tags) === 0)
 			return;
 
 		$found = Tag::whereIn('tag', $tags)->pluck('tag')->all();
 
-		foreach ( array_diff( $tags, $found ) as $tag ) {
-			if ( ! empty(trim($tag)) && strlen($tag) >= 3 )
-				Tag::updateOrCreate(['tag' => trim($tag)]);
-		}
+		foreach (array_diff( $tags, $found ) as $tag)
+			if (! empty(trim($tag)) && strlen($tag) >= 3) {
+				$model = new Tag;
+				$model->tag = trim($tag);
+				$model->save();
+			}
 	}
 
 	/**
-	 * @param $tag
+	 * Remove one tag.
+	 *
+	 * @param string  $tag
 	 */
-	protected function removeOneTag( $tag ) {
-		if ( $tag = Tag::findBy('tag', $tag) ) {
+	protected function removeOneTag($tag) {
+		if ($tag = Tag::findBy('tag', $tag))
 			$this->tags()->detach($tag);
-		}
 	}
 
 	/**
-	 * @return void
+	 * Remove all tags.
 	 */
 	protected function removeAllTags() {
 		$this->tags()->sync([]);
 	}
 
 	/**
-	 * TODO: not playing nicely with collection yet
+	 * @todo not playing nicely with collections yet.
 	 *
-	 * @param  string|array $tags
+	 * @param  string|array  $tags
 	 * @return array
 	 */
-	public static function makeTagsArray( $tags ) {
-		if ( is_array($tags) ) {
+	public static function makeTagsArray($tags) {
+		if (is_array($tags)) {
 			$tags = array_unique(array_filter($tags));
-		} else if ( is_string($tags) ) {
+		} else if (is_string($tags)) {
 			$tags = preg_split('#[' . preg_quote(',', '#' ) . ']#', $tags, null, PREG_SPLIT_NO_EMPTY);
 		} else {
 			$tags = $tags->toArray();
 		}
 
 		$tagSet = [];
-		foreach ( $tags as $tag ) {
+		foreach ($tags as $tag)
 			$tagSet[] = Tag::taggify($tag);
-		}
 
 		return $tagSet;
 	}
@@ -182,11 +183,11 @@ trait HasTags
     /**
      * Filter model to subset with the given tags
      *
-     * @param  $query
-     * @param  $tag string
+     * @param  object  $query
+     * @param  string  $tag
      * @return mixed
      */
-	public function scopeWithTag( $query, $tag )
+	public function scopeWithTag($query, $tag)
 	{
 		$tag = Tag::where('tag', $tag)->first();
 
@@ -198,17 +199,16 @@ trait HasTags
 	/**
 	 * Filter model to subset with the given tags
 	 *
-	 * @param  object       $query
-	 * @param  array|string $tags
-	 * @return object       $query
+	 * @param  object        $query
+	 * @param  array|string  $tags
+	 * @return object        $query
 	 */
-	public function scopeWithTags( $query, $tags )
+	public function scopeWithTags($query, $tags)
 	{
 		$tags = $this->makeTagsArray($tags);
 
-		foreach ( $tags as $tag ) {
+		foreach ($tags as $tag)
 			$this->scopeWithTag($query, $tag);
-		}
 
 		return $query;
 	}
@@ -233,5 +233,4 @@ trait HasTags
 
 		return $query->whereIn($this->getTable() .'.id', $taggable_ids);
 	}
-
 }
