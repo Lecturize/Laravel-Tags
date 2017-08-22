@@ -34,8 +34,8 @@ class CreateTagsTable extends Migration
     public function up()
     {
         Schema::create($this->table, function(Blueprint $table)
-		{
-		    $table->increments('id');
+        {
+            $table->increments('id');
 
             $table->string('tag')->nullable()->unique();
             $table->string('slug')->nullable()->unique();
@@ -51,7 +51,7 @@ class CreateTagsTable extends Migration
 
             $table->timestamps();
             $table->softDeletes();
-		});
+        });
 
         Schema::create($this->table_pivot, function(Blueprint $table)
         {

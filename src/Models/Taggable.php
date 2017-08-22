@@ -8,14 +8,14 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Taggable extends Model
 {
-	/**
+    /**
      * @inheritdoc
-	 */
-	protected $fillable = [
-		'tag_id',
-		'taggable_id',
-		'taggable_type',
-	];
+     */
+    protected $fillable = [
+        'tag_id',
+        'taggable_id',
+        'taggable_type',
+    ];
 
     /**
      * @inheritdoc
@@ -27,19 +27,19 @@ class Taggable extends Model
         $this->table = config('lecturize.tags.table_pivot', 'taggables');
     }
 
-	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\MorphTo
-	 */
-	public function taggable()
-	{
-		return $this->morphTo();
-	}
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     */
+    public function taggable()
+    {
+        return $this->morphTo();
+    }
 
-	/**
-	 * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-	 */
-	public function tag()
-	{
-		return $this->belongsTo(Tag::class, 'tag_id', 'id');
-	}
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function tag()
+    {
+        return $this->belongsTo(Tag::class, 'tag_id', 'id');
+    }
 }
