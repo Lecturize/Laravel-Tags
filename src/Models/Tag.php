@@ -52,34 +52,17 @@ class Tag extends Model
      */
     public static function taggify($tag)
     {
-        $filters = [
-            ' der ' => '',
-            ' des ' => '',
-            ' die ' => '',
-            ' und ' => '',
-            ' in '  => '',
-/*
-            'Ä' => 'AE',
-            'Ö' => 'OE',
-            'Ü' => 'UE',
-            'ß' => 'ss',
-            'ä' => 'ae',
-            'ö' => 'oe',
-            'ü' => 'ue',
-*/
-            '&' => '',
-            '@' => '',
-            '/' => '',
-        ];
+        $filters = config('lecturize.tags.filters', []);
         $tag = trim(str_replace(array_keys($filters), array_values($filters), $tag));
 
-        $filters = [
-            '/\(([^)]+)\)/' => '',
-        ];
-        $tag = trim(preg_replace(array_keys($filters), array_values($filters), $tag));
+        $patterns = config('lecturize.tags.patterns', ['/\(([^)]+)\)/' => '']);
+        $tag = trim(preg_replace(array_keys($patterns), array_values($patterns), $tag));
 
-        $tag = camel_case($tag);
-        $tag = ucfirst($tag);
+        if (config('lecturize.tags.camel_case', false)) {
+            $tag = camel_case($tag);
+            $tag = ucfirst($tag);
+        }
+
         $tag = trim($tag);
 
         return $tag;
