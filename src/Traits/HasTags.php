@@ -57,7 +57,8 @@ trait HasTags
      * @param $tags
      * @return $this
      */
-    public function untag($tags) {
+    public function untag($tags)
+    {
         $tags = $this->makeTagsArray($tags);
 
         foreach ($tags as $tag)
@@ -72,7 +73,8 @@ trait HasTags
      * @param  $tags
      * @return $this
      */
-    public function retag($tags) {
+    public function retag($tags)
+    {
         $this->detag()->tag($tags);
 
         return $this;
@@ -83,7 +85,8 @@ trait HasTags
      *
      * @return mixed
      */
-    public function detag() {
+    public function detag()
+    {
         $this->removeAllTags();
 
         return $this;
@@ -154,7 +157,8 @@ trait HasTags
     /**
      * Remove all tags.
      */
-    protected function removeAllTags() {
+    protected function removeAllTags()
+    {
         $this->tags()->sync([]);
     }
 
@@ -164,7 +168,8 @@ trait HasTags
      * @param  string|array  $tags
      * @return array
      */
-    public static function makeTagsArray($tags) {
+    public static function makeTagsArray($tags)
+    {
         if (is_array($tags)) {
             $tags = array_unique(array_filter($tags));
         } else if (is_string($tags)) {
