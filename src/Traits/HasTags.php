@@ -136,7 +136,7 @@ trait HasTags
 
         $found = Tag::whereIn('tag', $tags)->pluck('tag')->all();
 
-        foreach (array_diff( $tags, $found ) as $tag)
+        foreach (array_diff($tags, $found) as $tag)
             if (! empty(trim($tag)) && strlen($tag) >= 3) {
                 $model = new Tag;
                 $model->tag = trim($tag);
