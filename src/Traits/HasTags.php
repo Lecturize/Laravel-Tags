@@ -136,12 +136,23 @@ trait HasTags
 
         $found = Tag::whereIn('tag', $tags)->pluck('tag')->all();
 
-        foreach (array_diff($tags, $found) as $tag)
-            if (! empty(trim($tag)) && strlen($tag) >= 3) {
+        foreach (array_diff($tags, $found) as $tag) {
+            if (empty(trim($tag)) || strlen($tag) < 3)
+                continue;
+
+            try {
                 $model = new Tag;
                 $model->tag = trim($tag);
                 $model->save();
+            } catch (\Illuminate\Database\QueryException $e) {
+                $context = [];
+                $context['file'] = $e->getFile() ?: '';
+                $context['line'] = $e->getLine() ?: '';
+                $context['code'] = $e->getCode() ?: '';
+
+                logger()->warning($e->getMessage(), $context);
             }
+        }
     }
 
     /**
