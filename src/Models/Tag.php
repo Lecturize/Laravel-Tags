@@ -50,7 +50,8 @@ class Tag extends Model
      * @param  string  $tag
      * @return string
      */
-    public static function taggify($tag) {
+    public static function taggify($tag)
+    {
         $filters = [
             ' der ' => '',
             ' des ' => '',
@@ -102,7 +103,8 @@ class Tag extends Model
      * @param  string  $searchTerm
      * @return mixed
      */
-    public function scopeSearch($query, $searchTerm) {
+    public function scopeSearch($query, $searchTerm)
+    {
         return $query->where('tag', 'like', '%'. $searchTerm .'%');
     }
 
