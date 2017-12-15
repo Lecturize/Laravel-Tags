@@ -4,11 +4,11 @@ use Illuminate\Support\Facades\Facade;
 
 class Tag extends Facade
 {
-	/**
+    /**
      * @inheritdoc
-	 */
-	protected static function getFacadeAccessor()
-	{
+     */
+    protected static function getFacadeAccessor()
+    {
         return 'tags';
-	}
+    }
 }

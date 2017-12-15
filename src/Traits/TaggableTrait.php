@@ -7,5 +7,5 @@
  */
 trait TaggableTrait
 {
-	use HasTags;
+    use HasTags;
 }

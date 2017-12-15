@@ -10,20 +10,20 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  */
 class Tag extends Model
 {
-	use Sluggable;
+    use Sluggable;
     use SoftDeletes;
 
     /**
      * @inheritdoc
      */
     protected $fillable = [
-		'tag',
-		'slug'
-	];
+        'tag',
+        'slug'
+    ];
 
-	/**
-	 * @inheritdoc
-	 */
+    /**
+     * @inheritdoc
+     */
     protected $validationRules = [
         'tag'  => 'required',
         'slug' => 'required',
@@ -44,65 +44,52 @@ class Tag extends Model
         $this->table = config('lecturize.tags.table', 'tags');
     }
 
-	/**
-	 * Taggify a given string
-	 *
-	 * @param  string $tag
-	 * @return string
-	 */
-	public static function taggify( $tag ) {
-		$filters = [
-			' der ' => '',
-			' des ' => '',
-			' die ' => '',
-			' und ' => '',
-			' in '  => '',
-/*
-			'Ä' => 'AE',
-			'Ö' => 'OE',
-			'Ü' => 'UE',
-			'ß' => 'ss',
-			'ä' => 'ae',
-			'ö' => 'oe',
-			'ü' => 'ue',
-*/
-			'&' => '',
-			'@' => '',
-			'/' => '',
-		];
-		$tag = trim(str_replace(array_keys($filters), array_values($filters), $tag));
+    /**
+     * Taggify a given string
+     *
+     * @param  string  $tag
+     * @return string
+     */
+    public static function taggify($tag)
+    {
+        $filters = config('lecturize.tags.filters', []);
+        $tag = trim(str_replace(array_keys($filters), array_values($filters), $tag));
 
-		$filters = [
-			'/\(([^)]+)\)/' => '',
-		];
-		$tag = trim(preg_replace(array_keys($filters), array_values($filters), $tag));
+        $patterns = config('lecturize.tags.patterns', ['/\(([^)]+)\)/' => '']);
+        $tag = trim(preg_replace(array_keys($patterns), array_values($patterns), $tag));
 
-		$tag = camel_case($tag);
-		$tag = ucfirst($tag);
-		$tag = trim($tag);
+        if (config('lecturize.tags.camel_case', false)) {
+            $tag = camel_case($tag);
+            $tag = ucfirst($tag);
+        }
 
-		return $tag;
-	}
+        $tag = trim($tag);
 
-	/**
-	 * Get the Display Name
-	 *
-	 * @param int $limit
-	 * @return string
-	 */
-	public function getDisplayName( $limit = 0 )
-	{
-		return $limit > 0 ? str_limit($this->tag, $limit) : $this->tag;
-	}
+        return $tag;
+    }
 
-	/**
-	 * @param $query
-	 * @param string $searchTerm
-	 * @return mixed
-	 */
-	public function scopeSearch( $query, $searchTerm ) {
-		return $query->where( 'tag', 'like', '%'. $searchTerm .'%' );
-	}
+    /**
+     * Get the display name.
+     *
+     * @param  int  $limit
+     * @return string
+     */
+    public function getDisplayName($limit = 0)
+    {
+        return $limit > 0 ? str_limit($this->tag, $limit) : $this->tag;
+    }
+
+    /**
+     * Simple tag search.
+     *
+     * @param  $query
+     * @param  string  $searchTerm
+     * @return mixed
+     */
+    public function scopeSearch($query, $searchTerm)
+    {
+        return $query->where('tag', 'like', '%'. $searchTerm .'%');
+    }
 
     /**
      * Return the sluggable configuration array for this model.

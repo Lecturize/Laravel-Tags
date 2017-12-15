@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
@@ -34,10 +35,10 @@ class CreateTagsTable extends Migration
     public function up()
     {
         Schema::create($this->table, function(Blueprint $table)
-		{
-		    $table->increments('id');
+        {
+            $table->increments('id');
 
-            $table->string('tag')->unique();
+            $table->string('tag')->nullable()->unique();
             $table->string('slug')->nullable()->unique();
 
             $table->boolean('suggest')->default(0);
@@ -51,7 +52,7 @@ class CreateTagsTable extends Migration
 
             $table->timestamps();
             $table->softDeletes();
-		});
+        });
 
         Schema::create($this->table_pivot, function(Blueprint $table)
         {
