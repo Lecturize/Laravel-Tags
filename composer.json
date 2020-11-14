@@ -3,6 +3,7 @@
     "description": "Simple way to tag Eloquent models in Laravel 5.",
     "homepage" : "https://github.com/Lecturize/Laravel-Tags",
     "license": "MIT",
+    "type": "library",
     "keywords": [
         "tags",
         "tagging",
@@ -25,17 +26,39 @@
         "cviebrock/eloquent-sluggable" : "^6.0"
     },
     "require-dev": {
-        "laravel/framework" : ">=6.0",
-        "mockery/mockery" : "0.9.*",
-        "phpunit/phpunit" : "^9.4",
-        "doctrine/dbal"   : "2.5.x"
+        "laravel/framework"      : "^6.0",
+        "mockery/mockery"        : "~1.0",
+        "phpunit/phpunit"        : "^9.4",
+        "orchestra/testbench"    : "^4.10",
+        "doctrine/dbal"          : "^2.12"
     },
     "autoload": {
         "psr-4": {
-            "Lecturize\\Tags\\" : "src/"
+            "Lecturize\\Tags\\" : "src"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "Lecturize\\Tags\\Test\\": "tests"
+        }
+    },
+    "scripts": {
+        "tags": "vendor/bin/phpunit",
+        "tags-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    },
     "extra": {
+        "laravel": {
+            "providers": [
+                "Lecturize\\Tags\\TagsServiceProvider"
+            ],
+            "aliases": {
+                "Tag": "Lecturize\\Tags\\Facades\\Tag"
+            }
+        },
         "branch-alias" : {
             "dev-master" : "0.0.x-dev"
         }
