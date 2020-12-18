@@ -76,7 +76,7 @@ class Tag extends Model
      */
     public function getDisplayName($limit = 0)
     {
-        return $limit > 0 ? str_limit($this->tag, $limit) : $this->tag;
+        return $limit > 0 ? \Illuminate\Support\Str::limit($this->tag, $limit) : $this->tag;
     }
 
     /**
