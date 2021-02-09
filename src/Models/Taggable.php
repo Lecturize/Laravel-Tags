@@ -8,18 +8,14 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Taggable extends Model
 {
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     protected $fillable = [
         'tag_id',
         'taggable_id',
         'taggable_type',
     ];
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
@@ -28,6 +24,8 @@ class Taggable extends Model
     }
 
     /**
+     * Get the tagged item.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\MorphTo
      */
     public function taggable()
@@ -36,6 +34,8 @@ class Taggable extends Model
     }
 
     /**
+     * Get the tag.
+     *
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function tag()

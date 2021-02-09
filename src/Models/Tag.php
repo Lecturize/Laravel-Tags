@@ -1,8 +1,10 @@
 <?php namespace Lecturize\Tags\Models;
 
-use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Str;
+
+use Cviebrock\EloquentSluggable\Sluggable;
 
 /**
  * Class Tag
@@ -13,30 +15,28 @@ class Tag extends Model
     use Sluggable;
     use SoftDeletes;
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     protected $fillable = [
         'tag',
         'slug'
     ];
 
     /**
-     * @inheritdoc
+     * The validation rules for this model.
+     *
+     * @return array
      */
     protected $validationRules = [
         'tag'  => 'required',
         'slug' => 'required',
     ];
 
-    /**
-     * @inheritdoc
-     */
-    protected $dates = ['deleted_at'];
+    /** @inheritdoc */
+    protected $dates = [
+        'deleted_at'
+    ];
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     public function __construct(array $attributes = [])
     {
         parent::__construct($attributes);
@@ -59,13 +59,11 @@ class Tag extends Model
         $tag = trim(preg_replace(array_keys($patterns), array_values($patterns), $tag));
 
         if (config('lecturize.tags.camel_case', false)) {
-            $tag = camel_case($tag);
-            $tag = ucfirst($tag);
+            $tag = Str::camel($tag);
+            $tag = Str::ucfirst($tag);
         }
 
-        $tag = trim($tag);
-
-        return $tag;
+        return trim($tag);
     }
 
     /**
@@ -76,7 +74,7 @@ class Tag extends Model
      */
     public function getDisplayName($limit = 0)
     {
-        return $limit > 0 ? \Illuminate\Support\Str::limit($this->tag, $limit) : $this->tag;
+        return $limit > 0 ? Str::limit($this->tag, $limit) : $this->tag;
     }
 
     /**
@@ -91,17 +89,8 @@ class Tag extends Model
         return $query->where('tag', 'like', '%'. $searchTerm .'%');
     }
 
-    /**
-     * Return the sluggable configuration array for this model.
-     *
-     * @return array
-     */
-    public function sluggable()
-    {
-        return [
-            'slug' => [
-                'source' => 'tag'
-            ]
-        ];
+    /** @inheritdoc */
+    public function sluggable(): array {
+        return ['slug' => ['source' => 'tag']];
     }
 }
