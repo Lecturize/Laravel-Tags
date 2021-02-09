@@ -8,26 +8,21 @@ class TagsServiceProvider extends ServiceProvider
         'CreateTagsTable' => 'create_tags_table'
     ];
 
-    /**
-     * @inheritdoc
-     */
     public function boot()
     {
         $this->handleConfig();
         $this->handleMigrations();
+
+        $this->loadTranslationsFrom(__DIR__ .'/../resources/lang', 'tags');
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     public function register()
     {
         //
     }
 
-    /**
-     * @inheritdoc
-     */
+    /** @inheritdoc */
     public function provides()
     {
         return [];
@@ -54,14 +49,17 @@ class TagsServiceProvider extends ServiceProvider
      */
     private function handleMigrations()
     {
+        $count = 0;
         foreach ($this->migrations as $class => $file) {
             if (! class_exists($class)) {
-                $timestamp = date('Y_m_d_His', time());
+                $timestamp = date('Y_m_d_Hi'. sprintf('%02d', $count), time());
 
                 $this->publishes([
                     __DIR__ .'/../database/migrations/'. $file .'.php.stub' =>
                         database_path('migrations/'. $timestamp .'_'. $file .'.php')
                 ], 'migrations');
+
+                $count++;
             }
         }
     }
