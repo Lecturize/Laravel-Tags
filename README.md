@@ -22,7 +22,7 @@ and run `$ composer update` or both in one with `$ composer require lecturize/la
 
 ```bash
 $ php artisan vendor:publish --provider="Cviebrock\EloquentSluggable\ServiceProvider"
-$ php artisan vendor:publish --provider="Lecturize\Taxonomies\TaxonomiesServiceProvider"
+$ php artisan vendor:publish --provider="Lecturize\Tags\TagsServiceProvider"
 ```
 
 This will publish a `config/sluggable.php`, a `config/lecturize.php` and some migration files, that you'll have to run:
