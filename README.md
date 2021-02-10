@@ -4,13 +4,7 @@
 
 # Laravel Tags
 
-Simple way to tag Eloquent models in Laravel 5.
-
-## Important Notice
-
-**This package is a work in progress**, please use with care and feel free to report any issues or ideas you may have!
-
-We've transferred this package to a new owner and therefor updated the namespaces to **Lecturize\Tags**. The config file is now `config/lecturize.php`.
+Simple way to tag eloquent models in Laravel.
 
 ## Installation
 
@@ -18,7 +12,7 @@ Require the package from your `composer.json` file
 
 ```php
 "require": {
-    "lecturize/laravel-tags": "dev-master"
+    "lecturize/laravel-tags": "^1.0"
 }
 ```
 
@@ -38,14 +32,16 @@ Next register the service provider and (optional) facade to your `config/app.php
 
 ```bash
 $ php artisan vendor:publish --provider="Cviebrock\EloquentSluggable\ServiceProvider"
-$ php artisan vendor:publish --provider="Lecturize\Tags\TagsServiceProvider"
+$ php artisan vendor:publish --provider="Lecturize\Taxonomies\TaxonomiesServiceProvider"
 ```
 
-This will create a `config/sluggable.php`, a `config/lecturize.php` and a migration file, that you'll have to run like so:
+This will publish a `config/sluggable.php`, a `config/lecturize.php` and some migration files, that you'll have to run:
 
 ```bash
 $ php artisan migrate
 ```
+
+For migrations to be properly published ensure that you have added the directory `database/migrations` to the classmap in your projects `composer.json`.
 
 ## Usage
 
