@@ -18,16 +18,6 @@ Require the package from your `composer.json` file
 
 and run `$ composer update` or both in one with `$ composer require lecturize/laravel-tags`.
 
-Next register the service provider and (optional) facade to your `config/app.php` file
-
-```php
-'providers' => [
-    // ...
-    Cviebrock\EloquentSluggable\ServiceProvider::class,
-    Lecturize\Tags\TagsServiceProvider::class
-];
-```
-
 ## Configuration & Migration
 
 ```bash
