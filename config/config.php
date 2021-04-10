@@ -1,9 +1,18 @@
 <?php
+
 return [
-    /*
-     * Tags
-     */
+
     'tags' => [
+        /*
+         * The tag model.
+         */
+        'model' => \Lecturize\Tags\Models\Tag::class,
+
+        /*
+         * The tag model.
+         */
+        'model_pivot' => \Lecturize\Tags\Models\Taggable::class,
+
         /*
          * Main table
          */
@@ -35,4 +44,5 @@ return [
          */
         'camel_case' => false,
     ],
+
 ];
