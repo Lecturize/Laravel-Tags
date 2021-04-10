@@ -1,5 +1,6 @@
 <?php namespace Lecturize\Tags\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
@@ -9,6 +10,8 @@ use Cviebrock\EloquentSluggable\Sluggable;
 /**
  * Class Tag
  * @package Lecturize\Tags\Models
+ * @property string       $tag
+ * @property string|null  $slug
  */
 class Tag extends Model
 {
@@ -21,19 +24,19 @@ class Tag extends Model
         'slug'
     ];
 
+    /** @inheritdoc */
+    protected $dates = [
+        'deleted_at'
+    ];
+
     /**
      * The validation rules for this model.
      *
-     * @return array
+     * @var array
      */
     protected $validationRules = [
         'tag'  => 'required',
         'slug' => 'required',
-    ];
-
-    /** @inheritdoc */
-    protected $dates = [
-        'deleted_at'
     ];
 
     /** @inheritdoc */
@@ -50,7 +53,7 @@ class Tag extends Model
      * @param  string  $tag
      * @return string
      */
-    public static function taggify($tag)
+    public static function taggify(string $tag): string
     {
         $filters = config('lecturize.tags.filters', []);
         $tag = trim(str_replace(array_keys($filters), array_values($filters), $tag));
@@ -72,7 +75,7 @@ class Tag extends Model
      * @param  int  $limit
      * @return string
      */
-    public function getDisplayName($limit = 0)
+    public function getDisplayName(int $limit = 0): string
     {
         return $limit > 0 ? Str::limit($this->tag, $limit) : $this->tag;
     }
@@ -80,13 +83,13 @@ class Tag extends Model
     /**
      * Simple tag search.
      *
-     * @param  $query
-     * @param  string  $searchTerm
-     * @return mixed
+     * @param  Builder  $query
+     * @param  string   $search
+     * @return Builder
      */
-    public function scopeSearch($query, $searchTerm)
+    public function scopeSearch(Builder $query, string $search): Builder
     {
-        return $query->where('tag', 'like', '%'. $searchTerm .'%');
+        return $query->where('tag', 'like', '%'. $search .'%');
     }
 
     /** @inheritdoc */

@@ -15,23 +15,21 @@ trait ModelGetter
     /**
      * Retrieve tags.
      *
-     * @param  int  $count
+     * @param  int|null  $limit
      * @return Collection
      * @throws Exception
      */
-    public function getTags($count = null): Collection
+    public function getTags(?int $limit = null): Collection
     {
-        return Tag::latest()
-                  ->take($count)
-                  ->get();
+        return app(config('lecturize.tags.model', Tag::class))::latest()->take($limit)->get();
     }
 
     /**
      * Retrieve paginated tags.
      *
-     * @param  int      $per_page
-     * @param  boolean  $cached
-     * @return Collection|LengthAwarePaginator
+     * @param  int   $per_page
+     * @param  bool  $cached
+     * @return LengthAwarePaginator
      * @throws Exception
      */
     public function getTagsPaginated($per_page = 15, $cached = true): LengthAwarePaginator
@@ -44,7 +42,7 @@ trait ModelGetter
             cache()->forget($key);
 
         return cache()->remember($key, now()->addWeek(), function() use($per_page) {
-            return Tag::paginate($per_page);
+            return app(config('lecturize.tags.model', Tag::class))::paginate($per_page);
         });
     }
 }

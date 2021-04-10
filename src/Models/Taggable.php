@@ -1,6 +1,8 @@
 <?php namespace Lecturize\Tags\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 /**
  * Class Taggable
@@ -26,9 +28,9 @@ class Taggable extends Model
     /**
      * Get the tagged item.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphTo
+     * @return MorphTo
      */
-    public function taggable()
+    public function taggable(): MorphTo
     {
         return $this->morphTo();
     }
@@ -36,9 +38,9 @@ class Taggable extends Model
     /**
      * Get the tag.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return BelongsTo
      */
-    public function tag()
+    public function tag(): BelongsTo
     {
         return $this->belongsTo(Tag::class, 'tag_id', 'id');
     }

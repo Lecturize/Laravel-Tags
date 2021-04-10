@@ -1,40 +1,48 @@
 <?php namespace Lecturize\Tags\Traits;
 
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection as EloquentCollection;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Collection;
 use Lecturize\Tags\Models\Tag;
 use Lecturize\Tags\Models\Taggable;
 
 /**
  * Class HasTags
  * @package Lecturize\Traits\Tags
+ * @property EloquentCollection  $tags
+ * @property EloquentCollection  $tagged
  */
 trait HasTags
 {
     /**
      * Get all tags for this model.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphToMany
+     * @return MorphToMany
      */
-    public function tags()
+    public function tags(): MorphToMany
     {
-        return $this->morphToMany(Tag::class, 'taggable');
+        return $this->morphToMany(config('lecturize.tags.model', Tag::class), 'taggable');
     }
 
     /**
      * Return collection of tagged rows related to the tagged model
      *
-     * @return \Illuminate\Database\Eloquent\Relations\MorphMany
+     * @return MorphMany
      */
-    public function tagged()
+    public function tagged(): MorphMany
     {
-        return $this->morphMany(Taggable::class, 'taggable');
+        return $this->morphMany(config('lecturize.tags.model_pivot', Taggable::class), 'taggable');
     }
 
     /**
      * Sync tag relation adding new tags as needed
      *
-     * @param string|array $tags
+     * @param  string|array|Collection  $tags
+     * @return self
      */
-    public function tag($tags)
+    public function tag($tags): self
     {
         $tags = $this->makeTagsArray($tags);
 
@@ -42,22 +50,23 @@ trait HasTags
 
         if (count($tags) > 0) {
             $this->tags()->sync(
-                Tag::whereIn('tag', $tags)->pluck('id')->all()
+                app(config('lecturize.tags.model', Tag::class))::whereIn('tag', $tags)->pluck('id')->all()
             );
 
-            return;
+            return $this;
         }
 
         $this->tags()->detach();
+        return $this;
     }
 
     /**
      * Removes given tags from model
      *
-     * @param $tags
-     * @return $this
+     * @param  string|array|Collection  $tags
+     * @return self
      */
-    public function untag($tags)
+    public function untag($tags): self
     {
         $tags = $this->makeTagsArray($tags);
 
@@ -70,10 +79,10 @@ trait HasTags
     /**
      * Replaces all existing tags for a model with new ones
      *
-     * @param  $tags
-     * @return $this
+     * @param  string|array|Collection  $tags
+     * @return self
      */
-    public function retag($tags)
+    public function retag($tags): self
     {
         $this->detag()->tag($tags);
 
@@ -83,9 +92,9 @@ trait HasTags
     /**
      * Removes all existing tags from model
      *
-     * @return mixed
+     * @return self
      */
-    public function detag()
+    public function detag(): self
     {
         $this->removeAllTags();
 
@@ -95,10 +104,10 @@ trait HasTags
     /**
      * Check if current model is tagged with a given tag
      *
-     * @param string $tag
+     * @param  string  $tag
      * @return bool
      */
-    public function hasTag($tag)
+    public function hasTag(string $tag): bool
     {
         return $this->tags->contains('tag', $tag);
     }
@@ -106,9 +115,9 @@ trait HasTags
     /**
      * Convenience method to list all tags
      *
-     * @return mixed
+     * @return Collection
      */
-    public function listTags()
+    public function listTags(): Collection
     {
         return $this->tags->pluck('tag');
     }
@@ -116,16 +125,15 @@ trait HasTags
     /**
      * Get an array of all tagged tags
      *
-     * @return mixed
+     * @return array
      */
-    public function getTagsArray()
+    public function getTagsArray(): array
     {
         return $this->listTags()->toArray();
     }
 
     /**
-     * A static function to add any tags that
-     * aren’t in the database already.
+     * A static function to add any tags that aren't in the database already.
      *
      * @param array  $tags  List of tags to check/add.
      */
@@ -134,7 +142,7 @@ trait HasTags
         if (count($tags) === 0)
             return;
 
-        $found = Tag::whereIn('tag', $tags)->pluck('tag')->all();
+        $found = app(config('lecturize.tags.model', Tag::class))::whereIn('tag', $tags)->pluck('tag')->all();
 
         foreach (array_diff($tags, $found) as $tag) {
             if (empty(trim($tag)) || strlen($tag) < 3)
@@ -160,8 +168,8 @@ trait HasTags
      *
      * @param string  $tag
      */
-    protected function removeOneTag($tag) {
-        if ($tag = Tag::findBy('tag', $tag))
+    protected function removeOneTag(string $tag) {
+        if ($tag = app(config('lecturize.tags.model', Tag::class))::findBy('tag', $tag))
             $this->tags()->detach($tag);
     }
 
@@ -174,24 +182,26 @@ trait HasTags
     }
 
     /**
-     * @todo not playing nicely with collections yet.
+     * Prepare tags array.
      *
-     * @param  string|array  $tags
+     * @param  string|array|Collection  $tags
      * @return array
      */
-    public static function makeTagsArray($tags)
+    public static function makeTagsArray($tags): array
     {
         if (is_array($tags)) {
             $tags = array_unique(array_filter($tags));
-        } else if (is_string($tags)) {
+        } elseif (is_string($tags)) {
             $tags = preg_split('#[' . preg_quote(',', '#' ) . ']#', $tags, null, PREG_SPLIT_NO_EMPTY);
-        } else {
+        } elseif (method_exists($tags, 'toArray')) {
             $tags = $tags->toArray();
+        } else {
+            return [];
         }
 
         $tagSet = [];
         foreach ($tags as $tag)
-            $tagSet[] = Tag::taggify($tag);
+            $tagSet[] = app(config('lecturize.tags.model', Tag::class))::taggify($tag);
 
         return $tagSet;
     }
@@ -199,13 +209,13 @@ trait HasTags
     /**
      * Filter model to subset with the given tags
      *
-     * @param  object  $query
-     * @param  string  $tag
-     * @return mixed
+     * @param  Builder  $query
+     * @param  string   $tag
+     * @return Builder
      */
-    public function scopeWithTag($query, $tag)
+    public function scopeWithTag(Builder $query, string $tag): Builder
     {
-        $tag = Tag::where('tag', $tag)->first();
+        $tag = app(config('lecturize.tags.model', Tag::class))::where('tag', $tag)->first();
 
         return $query->whereHas('tagged', function($q) use($tag) {
                             $q->where('tag_id', $tag->id);
@@ -215,11 +225,11 @@ trait HasTags
     /**
      * Filter model to subset with the given tags
      *
-     * @param  object        $query
-     * @param  array|string  $tags
-     * @return object        $query
+     * @param  Builder                  $query
+     * @param  string|array|Collection  $tags
+     * @return Builder
      */
-    public function scopeWithTags($query, $tags)
+    public function scopeWithTags(Builder $query, $tags): Builder
     {
         $tags = $this->makeTagsArray($tags);
 
@@ -232,20 +242,17 @@ trait HasTags
     /**
      * Filter model to subset with the given tags
      *
-     * @param  object       $query
-     * @param  array|string $tags
-     * @return object       $query
+     * @param  Builder                  $query
+     * @param  string|array|Collection  $tags
+     * @return Builder
      */
-    public function scopeWithAnyTag( $query, $tags )
+    public function scopeWithAnyTag(Builder $query, $tags): Builder
     {
         $tags = $this->makeTagsArray($tags);
 
-        $tag_ids = Tag::whereIn('tag', $tags)
-                      ->pluck('id');
+        $tag_ids = app(config('lecturize.tags.model', Tag::class))::whereIn('tag', $tags)->pluck('id');
 
-        $taggable_ids = Taggable::whereIn('tag_id', $tag_ids)
-                                ->where('taggable_type', $query->getModel()->getMorphClass())
-                                ->pluck('taggable_id');
+        $taggable_ids = app(config('lecturize.tags.model_pivot', Taggable::class))::whereIn('tag_id', $tag_ids)->where('taggable_type', $query->getModel()->getMorphClass())->pluck('taggable_id');
 
         return $query->whereIn($this->getTable() .'.id', $taggable_ids);
     }

@@ -1,48 +1,56 @@
 <?php namespace Lecturize\Tags\Contracts;
 
+use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphToMany;
+use Illuminate\Support\Collection;
+
+/**
+ * Interface TaggableInterface
+ * @package Lecturize\Tags\Contracts
+ */
 interface TaggableInterface
 {
     /**
-     * @return mixed
+     * @return MorphToMany
      */
-    public function tags();
+    public function tags(): MorphToMany;
 
     /**
-     * @return mixed
+     * @return MorphMany
      */
-    public function tagged();
+    public function tagged(): MorphMany;
 
     /**
-     * @param $tags
-     * @return mixed
+     * @param  string|array|Collection  $tags
+     * @return self
      */
-    public function tag($tags);
+    public function tag($tags): self;
 
     /**
-     * @param $tags
-     * @return mixed
+     * @param  string|array|Collection  $tags
+     * @return self
      */
-    public function untag($tags);
+    public function untag($tags): self;
 
     /**
-     * @param $tags
-     * @return mixed
+     * @param  string|array|Collection  $tags
+     * @return self
      */
-    public function retag($tags);
+    public function retag($tags): self;
 
     /**
-     * @return mixed
+     * @return self
      */
-    public function detag();
+    public function detag(): self;
 
     /**
-     * @param $tag
-     * @return mixed
+     * @param  string  $tag
+     * @return bool
      */
-    public function hasTag($tag);
+    public function hasTag(string $tag): bool;
 
     /**
-     * @return mixed
+     * @return array
      */
-    public function listTags();
+    public function listTags(): array;
 }

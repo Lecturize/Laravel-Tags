@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Facade;
 
+/**
+ * Class Tag
+ * @package Lecturize\Tags\Facades
+ */
 class Tag extends Facade
 {
     /** @inheritdoc */

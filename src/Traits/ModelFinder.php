@@ -9,13 +9,13 @@ use Lecturize\Tags\Models\Tag;
 trait ModelFinder
 {
     /**
-     * Find tag.
+     * Find a tag.
      *
      * @param  string  $slug
-     * @return Tag
+     * @return Tag|null
      */
-    public function findTag($slug): Tag
+    public function findTag(string $slug): ?Tag
     {
-        return Tag::whereSlug($slug)->first();
+        return app(config('lecturize.tags.model', Tag::class))::whereSlug($slug)->first();
     }
 }

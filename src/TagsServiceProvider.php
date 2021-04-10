@@ -2,6 +2,10 @@
 
 use Illuminate\Support\ServiceProvider;
 
+/**
+ * Class TagsServiceProvider
+ * @package Lecturize\Tags
+ */
 class TagsServiceProvider extends ServiceProvider
 {
     protected $migrations = [
