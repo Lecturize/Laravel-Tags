@@ -1,4 +1,6 @@
-<?php namespace Lecturize\Tags;
+<?php
+
+namespace Lecturize\Tags;
 
 use Illuminate\Support\ServiceProvider;
 

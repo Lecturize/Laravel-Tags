@@ -1,4 +1,6 @@
-<?php namespace Lecturize\Tags\Tests;
+<?php
+
+namespace Lecturize\Tags\Tests;
 
 use Lecturize\Tags\TagsServiceProvider;
 

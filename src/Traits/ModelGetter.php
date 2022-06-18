@@ -1,4 +1,6 @@
-<?php namespace Lecturize\Tags\Traits;
+<?php
+
+namespace Lecturize\Tags\Traits;
 
 use Exception;
 use Illuminate\Pagination\LengthAwarePaginator;

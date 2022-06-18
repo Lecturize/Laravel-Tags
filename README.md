@@ -38,7 +38,9 @@ For migrations to be properly published ensure that you have added the directory
 First, add our `HasTags` trait to your model.
         
 ```php
-<?php namespace App\Models;
+<?php
+
+namespace App\Models;
 
 use Lecturize\Tags\Traits\HasTags;
 

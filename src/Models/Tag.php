@@ -1,4 +1,6 @@
-<?php namespace Lecturize\Tags\Models;
+<?php
+
+namespace Lecturize\Tags\Models;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;

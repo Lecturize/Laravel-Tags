@@ -1,4 +1,6 @@
-<?php namespace Lecturize\Tags\Exceptions;
+<?php
+
+namespace Lecturize\Tags\Exceptions;
 
 class TagNotFoundException extends \Exception
 {

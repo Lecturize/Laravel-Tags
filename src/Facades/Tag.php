@@ -1,4 +1,6 @@
-<?php namespace Lecturize\Tags\Facades;
+<?php
+
+namespace Lecturize\Tags\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
