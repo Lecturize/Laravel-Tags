@@ -27,8 +27,8 @@ class Tag extends Model
     ];
 
     /** @inheritdoc */
-    protected $dates = [
-        'deleted_at'
+    protected $casts = [
+        'deleted_at' => 'datetime'
     ];
 
     /**
@@ -36,7 +36,7 @@ class Tag extends Model
      *
      * @var array
      */
-    protected $validationRules = [
+    protected array $validationRules = [
         'tag'  => 'required',
         'slug' => 'required',
     ];
